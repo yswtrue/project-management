@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -15,10 +16,8 @@ class Department(BaseModel):
     description = models.TextField()
 
 
-class User(BaseModel):
-    user_name = models.CharField(max_length=200)
-    password = models.CharField(max_length=200)
-    nick_name = models.CharField(max_length=200)
+class Employee(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField()
     department = models.ForeignKey(
         Department
