@@ -21,4 +21,5 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url('sign_up', views.sign_up),
     url('departments', views.get_departments),
+    url('users', views.get_users),
 ]

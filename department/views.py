@@ -30,4 +30,10 @@ def sign_up(request):
 @ajax_return
 def get_departments(request):
     departments = Department.objects.all()
-    return models_to_dict(departments)
+    return departments
+
+
+@ajax_return
+def get_users(request):
+    users = User.objects.all()
+    return users
