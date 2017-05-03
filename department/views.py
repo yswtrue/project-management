@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from department.models import Employee, Department
 from project_management.common import ajax_return, models_to_dict
+from django.core import serializers
+import json
 # Create your views here.
 
 
@@ -12,19 +14,18 @@ from project_management.common import ajax_return, models_to_dict
 @require_POST
 @transaction.atomic
 def sign_up(request):
-    params = request.POST
+    post = json.loads(request.body)
     user = User.objects.create_user(
-        params['username'], params['email'], params['password']
+        username=post.get('username'), password=post.get('password')
     )
     department = Department.objects.get(
-        id=params['department_id']
+        id=post.get('department_id')
     )
     employee = Employee.objects.create(
+        user=user,
         department=department
     )
-    user.employee = employee
-    user.save()
-    return JsonResponse(user)
+    return user
 
 
 @ajax_return
