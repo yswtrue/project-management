@@ -10,7 +10,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     tags = TagSerializer(
-        many=True
+        many=True,
+        read_only=True
     )
 
     class Meta:
@@ -20,7 +21,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class ListSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(
-        many=True
+        many=True,
+        read_only=True
     )
 
     class Meta:
@@ -29,7 +31,7 @@ class ListSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    lists = ListSerializer(
+    lists = serializers.PrimaryKeyRelatedField(
         many=True,
         read_only=True
     )
@@ -37,6 +39,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Project
         fields = '__all__'
+        depth = 2
 
 
 class CommentSerializer(serializers.ModelSerializer):

@@ -72,7 +72,8 @@ class Task(BaseModel):
     # 任务的参与者
     partners = models.ManyToManyField(
         Employee,
-        related_name='tasks'
+        related_name='tasks',
+        blank=True
     )
     # 父级任务
     parent = models.ForeignKey(
