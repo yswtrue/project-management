@@ -2,18 +2,6 @@ from rest_framework import serializers
 from project import models
 
 
-class ProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Project
-        fields = '__all__'
-
-
-class ListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.List
-        fields = '__all__'
-
-
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
@@ -21,8 +9,33 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(
+        many=True
+    )
+
     class Meta:
         model = models.Task
+        fields = '__all__'
+
+
+class ListSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(
+        many=True
+    )
+
+    class Meta:
+        model = models.List
+        fields = '__all__'
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    lists = ListSerializer(
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+        model = models.Project
         fields = '__all__'
 
 

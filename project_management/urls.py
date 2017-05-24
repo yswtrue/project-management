@@ -17,9 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 import department.urls
 import project.urls
+from project_management import views
+from django.http import JsonResponse
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^department/', include(department.urls)),
-    url(r'^project/', include(project.urls)),
+    url(r'^departments/', include(department.urls)),
+    url(r'^projects/', include(project.urls)),
+    url(r'^', views.index)
 ]

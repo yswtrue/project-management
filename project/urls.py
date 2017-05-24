@@ -20,6 +20,8 @@ from project import views
 
 router = routers.DefaultRouter()
 router.register(r'projects', views.ProjectViewSet)
+router.register(r'lists', views.ListViewSet)
+router.register(r'tasks', views.TaskViewSet)
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
