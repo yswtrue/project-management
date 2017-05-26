@@ -1,40 +1,20 @@
-from django.shortcuts import render
-from django.views.decorators.http import require_http_methods, require_POST
 from django.db import transaction
-from django.http import JsonResponse
 from django.contrib.auth.models import User
-from department.models import Employee, Department
-from project_management.common import ajax_return, models_to_dict
-from django.core import serializers
-import json
-# Create your views here.
+from rest_framework import viewsets
+from . import serializers
+from . import models
 
 
-@ajax_return
-@require_POST
-@transaction.atomic
-def sign_up(request):
-    post = json.loads(request.body)
-    user = User.objects.create_user(
-        username=post.get('username'), password=post.get('password')
-    )
-    department = Department.objects.get(
-        id=post.get('department_id')
-    )
-    employee = Employee.objects.create(
-        user=user,
-        department=department
-    )
-    return user
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = models.Department.objects.all()
+    serializer_class = serializers.DepartmentSerializer
 
 
-@ajax_return
-def get_departments(request):
-    departments = Department.objects.all()
-    return departments
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = models.Employee.objects.all()
+    # queryset = User.objects.all()
+    serializer_class = serializers.EmployeeSerializer
 
-
-@ajax_return
-def get_users(request):
-    users = User.objects.all()
-    return users
+    def perform_create(self, serializer):
+        user = User.objects.create_user(self.request.user)
+        serializer.save(user=user)

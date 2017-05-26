@@ -19,8 +19,13 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {'id': value.id, 'name': value.name}
+
+
 class ListSerializer(serializers.ModelSerializer):
-    tasks = TaskSerializer(
+    tasks = TaskField(
         many=True,
         read_only=True
     )
@@ -30,8 +35,13 @@ class ListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {'id': value.id, 'name': value.name}
+
+
 class ProjectSerializer(serializers.ModelSerializer):
-    lists = serializers.PrimaryKeyRelatedField(
+    lists = ListField(
         many=True,
         read_only=True
     )

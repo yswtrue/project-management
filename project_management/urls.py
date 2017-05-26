@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^departments/', include(department.urls)),
     url(r'^projects/', include(project.urls)),
-    url(r'^&', views.index)
+    url(r'^$', views.index)
 ]

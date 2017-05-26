@@ -17,8 +17,10 @@ class Department(BaseModel):
 
 
 class Employee(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, related_name='employee', on_delete=models.CASCADE)
     description = models.TextField()
     department = models.ForeignKey(
-        Department
+        Department,
+        related_name='employees'
     )
